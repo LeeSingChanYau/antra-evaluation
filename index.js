@@ -55,7 +55,12 @@ const api = (() => {
   const checkout = () => {
     // you don't need to add anything here
     return getCart().then((data) =>
-      Promise.all(data.map((item) => deleteFromCart(item.id)))
+      Promise.all(
+        data.map((item) => {
+          deleteFromCart(item.id);
+          location.reload();
+        })
+      )
     );
   };
 
@@ -220,7 +225,9 @@ const Controller = ((model, view) => {
       if (event.target.className !== 'delete') return;
       const id = event.target.parentNode.getAttribute('item-id');
       await model.deleteFromCart(+id);
-      state.cart = state.cart.filter((item) => item['item-id'] !== +id);
+      const newCart = state.cart.filter((item) => item['item-id'] !== +id);
+      state.cart = newCart;
+      location.reload();
     });
   };
 
