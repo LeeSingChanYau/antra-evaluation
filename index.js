@@ -18,7 +18,7 @@ const api = (() => {
 
   const addToCart = async (inventoryItem) => {
     // define your method to add an item to cart
-    const response = await fetch(URL, {
+    const response = await fetch(URL + '/cart', {
       method: 'POST',
       body: JSON.stringify(inventoryItem),
       headers: {
@@ -201,13 +201,14 @@ const Controller = ((model, view) => {
   };
 
   const handleAddToCart = () => {
-    view.inventoryEl.addEventListener('click', (event) => {
+    view.inventoryEl.addEventListener('click', async (event) => {
       if (event.target.className !== 'add-to-cart') return;
       const id = event.target.parentNode.getAttribute('item-id');
       const newCart = [...state.cart];
       const inventoryItem = state.inventory.find((item) => item.id === +id);
       console.log(inventoryItem);
       if (inventoryItem) {
+        await model.addToCart(inventoryItem);
         newCart.push(inventoryItem);
         state.cart = newCart;
       }
@@ -218,8 +219,8 @@ const Controller = ((model, view) => {
     view.cartEl.addEventListener('click', async (event) => {
       if (event.target.className !== 'delete') return;
       const id = event.target.parentNode.getAttribute('item-id');
-      await model.deleteFromCart(id);
-      state.cart = state.cart.filter((item) => item['item-id'] !== id);
+      await model.deleteFromCart(+id);
+      state.cart = state.cart.filter((item) => item['item-id'] !== +id);
     });
   };
 

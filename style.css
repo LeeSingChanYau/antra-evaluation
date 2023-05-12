@@ -64,6 +64,7 @@ ul li {
   border-radius: 5px;
   padding: 5px 15px;
   margin: 0 10px;
+  cursor: pointer;
 }
 
 .cart-item {
