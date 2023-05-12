@@ -210,13 +210,20 @@ const Controller = ((model, view) => {
       if (event.target.className !== 'add-to-cart') return;
       const id = event.target.parentNode.getAttribute('item-id');
       const newCart = [...state.cart];
-      const inventoryItem = state.inventory.find((item) => item.id === +id);
+      const inventoryItem = Object.assign(
+        {},
+        state.inventory.find((item) => item.id === +id)
+      );
+      const cartItem = state.cart.find((item) => item.id === +id);
       console.log(inventoryItem);
-      if (inventoryItem) {
+      if (cartItem) {
+        await model.updateCart(+id, inventoryItem.amount + cartItem.amount);
+      } else if (inventoryItem) {
         await model.addToCart(inventoryItem);
         newCart.push(inventoryItem);
         state.cart = newCart;
       }
+      location.reload();
     });
   };
 
