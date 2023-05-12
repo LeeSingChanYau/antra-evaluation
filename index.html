@@ -8,15 +8,31 @@
     <title>Document</title>
   </head>
   <body>
-    <div id="app">
+    <div id="app" class="app">
       <div class="inventory-container">
         <h1>Inventory</h1>
-        <ul></ul>
+        <ul>
+          <li>
+            apple <button class="minus">-</button> 0
+            <button class="plus">+</button>
+            <button class="add-to-cart">add to cart</button>
+          </li>
+          <li>
+            peach <button class="minus">-</button> 0
+            <button class="plus">+</button>
+            <button class="add-to-cart">add to cart</button>
+          </li>
+        </ul>
       </div>
       <div class="cart-container">
         <h1>Shopping Cart</h1>
         <div class="cart-wrapper">
-          <ul></ul>
+          <ul>
+            <li class="cart-item">
+              apple x 1
+              <button class="delete">delete</button>
+            </li>
+          </ul>
           <button class="checkout-btn">checkout</button>
         </div>
       </div>
