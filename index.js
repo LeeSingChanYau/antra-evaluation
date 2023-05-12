@@ -173,8 +173,9 @@ const Controller = ((model, view) => {
       console.log('Clicked minus');
       const id = event.target.parentNode.getAttribute('item-id');
       const newInventory = [...state.inventory];
+      console.log(newInventory);
       for (let i = 0; i < newInventory.length; i++) {
-        if (id === newInventory[i].id) {
+        if (+id === newInventory[i].id) {
           if (newInventory[i].amount > 0) {
             newInventory[i].amount--;
           }
@@ -182,7 +183,6 @@ const Controller = ((model, view) => {
         }
       }
       state.inventory = newInventory;
-      console.log(newInventory, state.inventory);
     });
 
     view.inventoryEl.addEventListener('click', (event) => {
@@ -191,13 +191,12 @@ const Controller = ((model, view) => {
       const id = event.target.parentNode.getAttribute('item-id');
       const newInventory = [...state.inventory];
       for (let i = 0; i < newInventory.length; i++) {
-        if (id === newInventory[i].id) {
+        if (+id === newInventory[i].id) {
           newInventory[i].amount++;
           break;
         }
       }
       state.inventory = newInventory;
-      console.log(newInventory, state.inventory);
     });
   };
 
@@ -206,7 +205,8 @@ const Controller = ((model, view) => {
       if (event.target.className !== 'add-to-cart') return;
       const id = event.target.parentNode.getAttribute('item-id');
       const newCart = [...state.cart];
-      const inventoryItem = state.inventory.find((item) => item.id === id);
+      const inventoryItem = state.inventory.find((item) => item.id === +id);
+      console.log(inventoryItem);
       if (inventoryItem) {
         newCart.push(inventoryItem);
         state.cart = newCart;
