@@ -52,16 +52,12 @@ const api = (() => {
     return jsonData;
   };
 
-  const checkout = () => {
-    // you don't need to add anything here
-    return getCart().then((data) =>
-      Promise.all(
-        data.map((item) => {
-          deleteFromCart(item.id);
-          location.reload();
-        })
-      )
-    );
+  //Needed to update because it was not trigerring rerender
+  const checkout = async () => {
+    const cartItems = await getCart();
+    await Promise.all(cartItems.map((item) => deleteFromCart(item.id)));
+    const updatedCart = await getCart();
+    return updatedCart;
   };
 
   return {
@@ -218,12 +214,15 @@ const Controller = ((model, view) => {
       console.log(inventoryItem);
       if (cartItem) {
         await model.updateCart(+id, inventoryItem.amount + cartItem.amount);
+        model.getCart().then((data) => {
+          state.cart = data;
+        });
       } else if (inventoryItem) {
         await model.addToCart(inventoryItem);
         newCart.push(inventoryItem);
         state.cart = newCart;
       }
-      location.reload();
+      // location.reload();
     });
   };
 
@@ -232,15 +231,20 @@ const Controller = ((model, view) => {
       if (event.target.className !== 'delete') return;
       const id = event.target.parentNode.getAttribute('item-id');
       await model.deleteFromCart(+id);
-      const newCart = state.cart.filter((item) => item['item-id'] !== +id);
-      state.cart = newCart;
-      location.reload();
+      model.getCart().then((data) => {
+        state.cart = data;
+      });
     });
   };
 
   const handleCheckout = () => {
     view.checkoutBtnEl.addEventListener('click', (event) => {
-      model.checkout();
+      model.checkout().then(() => {
+        // Fetch updated cart data after checkout
+        model.getCart().then((data) => {
+          state.cart = data;
+        });
+      });
     });
   };
   const bootstrap = () => {
