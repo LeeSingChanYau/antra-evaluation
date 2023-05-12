@@ -34,6 +34,7 @@ ul li {
   border-radius: 5px;
   padding: 5px 15px;
   margin: 0 10px;
+  cursor: pointer;
 }
 
 .plus {
@@ -43,6 +44,7 @@ ul li {
   border-radius: 5px;
   padding: 5px 15px;
   margin: 0 10px;
+  cursor: pointer;
 }
 
 .add-to-cart {
@@ -52,6 +54,7 @@ ul li {
   border-radius: 5px;
   padding: 5px 15px;
   margin: 0 10px;
+  cursor: pointer;
 }
 
 .delete {
@@ -77,4 +80,5 @@ ul li {
   border: none;
   border-radius: 5px;
   padding: 10px;
+  cursor: pointer;
 }
